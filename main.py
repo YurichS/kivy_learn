@@ -31,7 +31,7 @@ class MainApp(App):
     def show_error(self, error_text):
         popup_layout = GridLayout(cols=1)
         error_name = Label(text=error_text)
-        popup_button = Button(text="OK", on_press=self.popupClose)
+        popup_button = Button(text="OK", on_press=lambda *args: self.pop.dismiss())
         popup_layout.add_widget(error_name)
         popup_layout.add_widget(popup_button)
         self.pop = Popup(title='Error',
@@ -39,8 +39,6 @@ class MainApp(App):
                          size_hint=(None, None), size=(400, 400), auto_dismiss=False)
         self.pop.open()
 
-    def popupClose(self, obj):
-        self.pop.dismiss()
 
     def button_press(self, instance):
         if instance.text == 'C':

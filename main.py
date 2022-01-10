@@ -31,16 +31,16 @@ class MainApp(App):
     def show_error(self, error_text):
         popup_layout = GridLayout(cols=1)
         error_name = Label(text=error_text)
-        popup_button = Button(text="OK", on_press=lambda *arg: self.pop.dismiss())
+        popup_button = Button(text="OK", on_press=self.popupClose)
         popup_layout.add_widget(error_name)
         popup_layout.add_widget(popup_button)
-        pop = Popup(title='Error',
-                    content=popup_layout,
-                    size_hint=(None, None), size=(400, 400), auto_dismiss=False)
-        pop.open()
+        self.pop = Popup(title='Error',
+                         content=popup_layout,
+                         size_hint=(None, None), size=(400, 400), auto_dismiss=False)
+        self.pop.open()
 
-    # def popupClose(self):
-    #     self.pop.dismiss()
+    def popupClose(self, obj):
+        self.pop.dismiss()
 
     def button_press(self, instance):
         if instance.text == 'C':
@@ -50,7 +50,6 @@ class MainApp(App):
             if self.equation.text != '' and self.equation.text != '0':
                 self.equation.text = str(1 / eval(self.equation.text))
             else:
-                # self.equation.text = 'Can\'t divide by zero'
                 error_text = 'Can\'t divide by zero'
                 self.show_error(error_text)
         elif instance.text == 'x^2':
@@ -59,7 +58,8 @@ class MainApp(App):
             if eval(self.equation.text) >= 0 and self.equation.text != '':
                 self.equation.text = str(eval(self.equation.text) ** (1 / 2))
             else:
-                self.equation.text = 'No square root of negative number'
+                error_text = 'No square root of negative number'
+                self.show_error(error_text)
         elif instance.text == "=":
             self.equation.text = str(eval(self.equation.text))
 
